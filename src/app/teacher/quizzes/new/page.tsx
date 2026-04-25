@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Plus, Trash2, ArrowLeft, Loader2, Star, CheckCircle2, Circle } from "lucide-react";
+import { Plus, Trash2, ArrowLeft, Loader2, Star, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 interface Question {
@@ -12,7 +12,7 @@ interface Question {
   correctIndex: number;
 }
 
-export default function NewQuizPage() {
+function QuizBuilderForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const lessonIdFromUrl = searchParams.get("lessonId");
@@ -127,7 +127,6 @@ export default function NewQuizPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Basic Info Card */}
         <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl shadow-indigo-500/5 space-y-8">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
@@ -167,7 +166,6 @@ export default function NewQuizPage() {
           </div>
         </div>
 
-        {/* Questions Area */}
         <div className="space-y-8">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black text-gray-900">Questions ({quizData.questions.length})</h2>
@@ -271,5 +269,18 @@ export default function NewQuizPage() {
         </div>
       </form>
     </div>
+  );
+}
+
+export default function NewQuizPage() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-5xl mx-auto p-20 flex flex-col items-center justify-center">
+        <Loader2 className="w-12 h-12 text-indigo-600 animate-spin mb-4" />
+        <p className="text-gray-500 font-bold text-xl text-center">Opening Quiz Builder...</p>
+      </div>
+    }>
+      <QuizBuilderForm />
+    </Suspense>
   );
 }

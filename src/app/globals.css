@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(0.45 0.2 260); /* Deep indigo */
+  --color-accent: oklch(0.65 0.25 280); /* Electric violet */
+  --color-highlight: oklch(0.75 0.2 70); /* Warm amber */
+  
+  --font-nunito: "Nunito", sans-serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.2 0 0);
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] antialiased;
+    font-family: var(--font-inter);
+  }
+}
+
+.student-theme {
+  --background: oklch(0.98 0.02 90); /* Warm cream */
+  font-family: var(--font-nunito);
+}
+
+.teacher-theme {
+  --background: oklch(0.15 0.02 260); /* Dark indigo */
+  --foreground: oklch(0.95 0.01 260);
+  font-family: var(--font-inter);
+}

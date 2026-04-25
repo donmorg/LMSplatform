@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  fullName     String
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  role         String   @default("STUDENT") // "STUDENT" or "TEACHER"
+  avatarColor  String   @default("#7c3aed")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Teacher relations
+  lessons      Lesson[]
+  quizzes      Quiz[]
+  tests        Test[]
+
+  // Student relations
+  submissions     Submission[]
+  testSubmissions TestSubmission[]
+  progress        LessonProgress[]
+}
+
+model Lesson {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  type        String      // "VIDEO", "PDF", "LINK"
+  contentUrl  String
+  order       Int         @default(0)
+  teacherId   String
+  teacher     User        @relation(fields: [teacherId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  quiz        Quiz?
+  progress    LessonProgress[]
+  testLessons TestLesson[]
+}
+
+model Quiz {
+  id        String   @id @default(cuid())
+  title     String
+  lessonId  String   @unique
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  teacherId String
+  teacher     User     @relation(fields: [teacherId], references: [id])
+  questions String   // JSON stringified Array of Question objects
+  timeLimit Int?     // seconds, null = unlimited
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissions Submission[]
+}
+
+model Test {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  teacherId   String
+  teacher     User     @relation(fields: [teacherId], references: [id])
+  questions   String   // JSON stringified Aggregated questions from multiple lessons
+  timeLimit   Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  testLessons     TestLesson[]
+  testSubmissions TestSubmission[]
+}
+
+model TestLesson {
+  testId   String
+  lessonId String
+  test     Test   @relation(fields: [testId], references: [id], onDelete: Cascade)
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+  @@id([testId, lessonId])
+}
+
+model Submission {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answers     String   // JSON stringified { questionId: selectedOptionIndex }
+  score       Int      // 0-100
+  maxScore    Int
+  timeTaken   Int?     // seconds
+  submittedAt DateTime @default(now())
+  @@unique([studentId, quizId])
+}
+
+model TestSubmission {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  testId      String
+  test        Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  answers     String   // JSON stringified answers
+  score       Int
+  maxScore    Int
+  timeTaken   Int?
+  submittedAt DateTime @default(now())
+  @@unique([studentId, testId])
+}
+
+
+model LessonProgress {
+  id         String         @id @default(cuid())
+  studentId  String
+  student    User           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lessonId   String
+  lesson     Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  status     String         @default("NOT_STARTED") // "NOT_STARTED", "IN_PROGRESS", "COMPLETED"
+  accessedAt DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  @@unique([studentId, lessonId])
+}
+

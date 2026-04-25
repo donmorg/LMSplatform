@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { GraduationCap, BookOpen, ShieldCheck, User, Mail, Lock, UserCircle } from "lucide-react";
+import { GraduationCap, BookOpen, ShieldCheck, User, Mail, Lock, UserCircle, Loader2 } from "lucide-react";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialRole = searchParams.get("role") === "TEACHER" ? "TEACHER" : "STUDENT";
@@ -177,10 +177,11 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-4 rounded-2xl font-bold text-white shadow-lg transition-all transform active:scale-95 ${
+              className={`w-full py-4 rounded-2xl font-bold text-white shadow-lg transition-all transform active:scale-95 flex items-center justify-center ${
                 loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200"
               }`}
             >
+              {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
               {loading ? "Creating Account..." : "Join Now!"}
             </button>
           </form>
@@ -194,5 +195,18 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex flex-col items-center justify-center bg-indigo-600 text-white">
+        <Loader2 className="w-12 h-12 animate-spin mb-4" />
+        <p className="text-xl font-bold">Preparing your adventure...</p>
+      </div>
+    }>
+      <RegisterForm />
+    </Suspense>
   );
 }

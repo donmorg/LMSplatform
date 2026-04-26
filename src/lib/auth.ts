@@ -14,25 +14,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { username: credentials.username as string },
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: { username: credentials.username as string },
+          });
 
-        if (!user) return null;
+          if (!user) {
+            console.log("Login failed: User not found", credentials.username);
+            return null;
+          }
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        );
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password as string,
+            user.passwordHash
+          );
 
-        if (!isPasswordValid) return null;
+          if (!isPasswordValid) {
+            console.log("Login failed: Invalid password for user", credentials.username);
+            return null;
+          }
 
-        return {
-          id: user.id,
-          name: user.fullName,
-          email: user.email,
-          role: user.role,
-        };
+          return {
+            id: user.id,
+            name: user.fullName,
+            email: user.email,
+            role: user.role,
+          };
+        } catch (error: any) {
+          console.error("Auth authorize error:", {
+            message: error.message,
+            code: error.code,
+            meta: error.meta
+          });
+          throw new Error(error.message || "Authentication service failed");
+        }
       },
     }),
   ],

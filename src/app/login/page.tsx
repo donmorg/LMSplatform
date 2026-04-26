@@ -31,12 +31,17 @@ function LoginForm() {
       });
 
       if (res?.error) {
-        throw new Error("Invalid username or password");
+        // NextAuth v5 returns error as a string in the res object
+        if (res.error === "CredentialsSignin") {
+          throw new Error("Invalid username or password");
+        }
+        throw new Error(res.error || "Login failed");
       }
 
       router.push("/dashboard");
     } catch (err: any) {
-      setError(err.message);
+      console.error("Login page error:", err);
+      setError(err.message || "An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }

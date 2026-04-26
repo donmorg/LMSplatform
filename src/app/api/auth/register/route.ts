@@ -40,8 +40,19 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ message: "User created successfully", userId: user.id });
-  } catch (error) {
-    console.error("Registration error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  } catch (error: any) {
+    console.error("Registration error details:", {
+      message: error.message,
+      code: error.code,
+      meta: error.meta,
+      stack: error.stack
+    });
+    
+    // Check for Prisma connection issues
+    if (error.code === 'P1001' || error.code === 'P1002' || error.code === 'P1003') {
+      return NextResponse.json({ error: "Database connection failed. Please check your DATABASE_URL." }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: "Internal server error: " + (error.message || "Unknown error") }, { status: 500 });
   }
 }

@@ -69,7 +69,7 @@ export default function Home() {
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
               <Users className="w-48 h-48" />
             </div>
-            <h2 className="text-3xl font-bold mb-4">For Teachers 📚</h2>
+            <h2 className="text-3xl font-bold mb-4">For Psychologists 📚</h2>
             <p className="text-gray-400 text-lg mb-8">
               Manage your classroom, upload content, and track every student's performance with ease.
             </p>
@@ -88,7 +88,7 @@ export default function Home() {
               </li>
             </ul>
             <Link href="/register?role=TEACHER" className="inline-block py-3 px-6 bg-indigo-500 text-white rounded-xl font-bold hover:bg-indigo-600 transition-colors">
-              I'm a Teacher
+              I'm a Psychologist
             </Link>
           </div>
         </div>

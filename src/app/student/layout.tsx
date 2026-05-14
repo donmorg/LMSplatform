@@ -9,7 +9,7 @@ export default function StudentLayout({
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <StudentSidebar />
-      <div className="flex-1 ml-72">
+      <div className="flex-1 ms-72">
         <TopBar />
         <main className="p-8">
           {children}

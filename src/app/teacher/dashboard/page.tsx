@@ -22,7 +22,7 @@ export default async function TeacherDashboard() {
     <div className="max-w-7xl mx-auto space-y-10 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Welcome Back, Teacher!</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Welcome Back, Psychologist!</h1>
           <p className="text-gray-500 mt-1">Here's what's happening in your classroom today.</p>
         </div>
         <div className="flex items-center space-x-3">

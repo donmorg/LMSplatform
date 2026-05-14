@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { Bell, Search, User, X, CheckCircle, Info, Star } from "lucide-react";
+import { Bell, Search, User, X, CheckCircle, Info, Star, Globe } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function TopBar() {
   const { data: session } = useSession();
   const [showNotifications, setShowNotifications] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   const notifications = [
     { id: 1, title: "New Lesson!", message: "Professor Sarah added 'Solar System'.", icon: Info, color: "text-blue-500", time: "2m ago" },
@@ -66,21 +68,33 @@ export default function TopBar() {
           </div>
         )}
 
+        <button
+          onClick={() => setLanguage(language === "en" ? "ar" : "en")}
+          className="flex items-center space-x-2 text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors bg-gray-50 px-3 py-2 rounded-xl"
+        >
+          <Globe className="w-5 h-5" />
+          <span>{t("topbar.switchLanguage")}</span>
+        </button>
+
         <Link 
-          href="/profile"
+          href={(session?.user as any)?.role === "TEACHER" ? "/teacher/dashboard" : "/student/profile"}
           className="flex items-center space-x-3 pl-6 border-l border-gray-100 hover:opacity-80 transition-opacity"
         >
           <div className="text-right hidden sm:block">
             <p className="text-sm font-bold text-gray-900">{session?.user?.name || "User"}</p>
             <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest">
-              {(session?.user as any)?.role || "Student"}
+              {(session?.user as any)?.role === "TEACHER" ? (language === "ar" ? "اخصاىي نفسي" : "Psychologist") : (language === "ar" ? "طالب" : "Student")}
             </p>
           </div>
           <div 
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-100"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-100 overflow-hidden"
             style={{ backgroundColor: (session?.user as any)?.avatarColor || "#7c3aed" }}
           >
-            {session?.user?.name?.charAt(0) || <User className="w-5 h-5" />}
+            {(session?.user as any)?.avatarUrl ? (
+              <img src={(session?.user as any).avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+            ) : (
+              session?.user?.name?.charAt(0) || <User className="w-5 h-5" />
+            )}
           </div>
         </Link>
 

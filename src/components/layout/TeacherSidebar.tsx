@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, Star, Users, PieChart, Settings, LogOut, PlusCircle } from "lucide-react";
+import { LayoutDashboard, BookOpen, Star, Users, PieChart, Settings, LogOut, PlusCircle, HeartPulse } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 const links = [
@@ -10,6 +10,7 @@ const links = [
   { name: "Manage Lessons", href: "/teacher/lessons", icon: BookOpen },
   { name: "Quizzes & Tests", href: "/teacher/quizzes", icon: Star },
   { name: "Student Roster", href: "/teacher/students", icon: Users },
+  { name: "Students Health", href: "/teacher/students-health", icon: HeartPulse },
   { name: "Detailed Analytics", href: "/teacher/analytics", icon: PieChart },
 ];
 
@@ -20,10 +21,10 @@ export default function TeacherSidebar() {
     <div className="w-72 bg-gray-900 flex flex-col h-screen fixed left-0 top-0 z-50 border-r border-gray-800">
       <div className="p-8 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-            L
+          <div className="relative w-10 h-10 flex items-center justify-center bg-white rounded-xl p-1">
+            <img src="/logo.png" alt="ATHAR Logo" className="w-full h-full object-contain" />
           </div>
-          <span className="text-xl font-bold tracking-tight text-white">LMS Pro</span>
+          <span className="text-xl font-bold tracking-tight text-white">{language === "ar" ? "أثار" : "ATHAR"}</span>
         </Link>
       </div>
 

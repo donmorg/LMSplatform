@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -16,8 +16,18 @@ model User {
   passwordHash String
   role         String   @default("STUDENT") // "STUDENT" or "TEACHER"
   avatarColor  String   @default("#7c3aed")
+  avatarUrl    String?
+
+  language     String   @default("en")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  // Teacher-Student Assignment (if STUDENT)
+  assignedTeacherId String?
+  assignedTeacher   User?   @relation("StudentTeacher", fields: [assignedTeacherId], references: [id])
+  
+  // Teacher-Student Assignment (if TEACHER)
+  assignedStudents  User[]  @relation("StudentTeacher")
 
   // Teacher relations
   lessons      Lesson[]
@@ -25,9 +35,10 @@ model User {
   tests        Test[]
 
   // Student relations
-  submissions     Submission[]
-  testSubmissions TestSubmission[]
-  progress        LessonProgress[]
+  submissions         Submission[]
+  testSubmissions     TestSubmission[]
+  progress            LessonProgress[]
+  mentalHealthResults MentalHealthResult[]
 }
 
 model Lesson {
@@ -124,5 +135,14 @@ model LessonProgress {
   accessedAt DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
   @@unique([studentId, lessonId])
+}
+
+model MentalHealthResult {
+  id        String   @id @default(cuid())
+  studentId String
+  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  score     Int
+  answers   String   // JSON stringified answers { questionIndex: optionScore }
+  createdAt DateTime @default(now())
 }
 

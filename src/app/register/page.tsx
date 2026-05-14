@@ -100,7 +100,7 @@ function RegisterForm() {
                 }`}
               >
                 <ShieldCheck className="w-4 h-4 mr-2" />
-                Teacher
+                Psychologist
               </button>
             </div>
 
@@ -164,7 +164,7 @@ function RegisterForm() {
                   <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-600" />
                   <input
                     type="password"
-                    placeholder="Teacher Passkey"
+                    placeholder="Psychologist Passkey"
                     required
                     value={formData.passkey}
                     onChange={(e) => setFormData({ ...formData, passkey: e.target.value })}

@@ -4,23 +4,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, BookOpen, Star, Users, PieChart, Settings, LogOut, PlusCircle, HeartPulse } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { useLanguage } from "@/lib/LanguageContext";
 
-const links = [
-  { name: "Overview", href: "/teacher/dashboard", icon: LayoutDashboard },
-  { name: "Manage Lessons", href: "/teacher/lessons", icon: BookOpen },
-  { name: "Quizzes & Tests", href: "/teacher/quizzes", icon: Star },
-  { name: "Student Roster", href: "/teacher/students", icon: Users },
-  { name: "Students Health", href: "/teacher/students-health", icon: HeartPulse },
-  { name: "Detailed Analytics", href: "/teacher/analytics", icon: PieChart },
-];
 
 export default function TeacherSidebar() {
   const pathname = usePathname();
+  const { t, dir, language } = useLanguage();
+
+  const links = [
+    { name: t("sidebar.dashboard"), href: "/teacher/dashboard", icon: LayoutDashboard },
+    { name: t("sidebar.lessons"), href: "/teacher/lessons", icon: BookOpen },
+    { name: t("sidebar.quizzes"), href: "/teacher/quizzes", icon: Star },
+    { name: t("sidebar.students"), href: "/teacher/students", icon: Users },
+    { name: t("sidebar.mentalHealthTest"), href: "/teacher/students-health", icon: HeartPulse },
+    { name: t("sidebar.analytics"), href: "/teacher/analytics", icon: PieChart },
+  ];
 
   return (
-    <div className="w-72 bg-gray-900 flex flex-col h-screen fixed left-0 top-0 z-50 border-r border-gray-800">
+    <div className={`w-72 bg-gray-900 flex flex-col h-screen fixed top-0 z-50 border-r border-gray-800 ${dir === "rtl" ? "right-0 border-l border-r-0" : "left-0 border-r"}`}>
       <div className="p-8 flex items-center justify-between">
-        <Link href="/" className="flex items-center space-x-3">
+        <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <div className="relative w-10 h-10 flex items-center justify-center bg-white rounded-xl p-1">
             <img src="/logo.png" alt="ATHAR Logo" className="w-full h-full object-contain" />
           </div>
@@ -33,8 +36,8 @@ export default function TeacherSidebar() {
           href="/teacher/lessons/new"
           className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-bold flex items-center justify-center transition-all shadow-lg shadow-indigo-900/20"
         >
-          <PlusCircle className="w-5 h-5 mr-2" />
-          Create New
+          <PlusCircle className="w-5 h-5 mx-2" />
+          {t("common.create")}
         </Link>
       </div>
 
@@ -46,14 +49,14 @@ export default function TeacherSidebar() {
             <Link
               key={link.name}
               href={link.href}
-              className={`flex items-center space-x-3 px-4 py-4 rounded-xl font-medium transition-all ${
+              className={`flex items-center space-x-3 rtl:space-x-reverse px-4 py-4 rounded-xl font-medium transition-all ${
                 isActive
                   ? "bg-gray-800 text-white"
                   : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? "text-indigo-400" : "text-gray-500"}`} />
-              <span>{link.name}</span>
+              <Icon className={`w-5 h-5 shrink-0 ${isActive ? "text-indigo-400" : "text-gray-500"}`} />
+              <span className="truncate">{link.name}</span>
             </Link>
           );
         })}
@@ -64,8 +67,8 @@ export default function TeacherSidebar() {
           onClick={() => signOut()}
           className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all"
         >
-          <LogOut className="w-5 h-5" />
-          <span>Logout</span>
+          <LogOut className="w-5 h-5 shrink-0" />
+          <span>{t("topbar.logout")}</span>
         </button>
       </div>
     </div>

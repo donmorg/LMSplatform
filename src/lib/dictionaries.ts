@@ -10,6 +10,7 @@ export const translations = {
       confirm: "Confirm",
       error: "An error occurred",
       success: "Success!",
+      create: "Create New",
     },
     sidebar: {
       dashboard: "Dashboard",
@@ -19,6 +20,8 @@ export const translations = {
       results: "Results",
       mentalHealthTest: "Mental Health Test",
       selectTeacher: "Select Psychologist",
+      students: "Student Roster",
+      analytics: "Detailed Analytics",
     },
     topbar: {
       profile: "Profile",
@@ -67,6 +70,7 @@ export const translations = {
       confirm: "تأكيد",
       error: "حدث خطأ",
       success: "تم بنجاح!",
+      create: "إضافة جديد",
     },
     sidebar: {
       dashboard: "الرئيسية",
@@ -76,6 +80,8 @@ export const translations = {
       results: "سجل النتائج",
       mentalHealthTest: "مقياس الصحة النفسية",
       selectTeacher: "اختيار الاخصائي النفسي",
+      students: "قائمة الطلاب",
+      analytics: "التحليلات التفصيلية",
     },
     topbar: {
       profile: "الملف الشخصي",
@@ -132,6 +138,9 @@ export type TranslationKey =
   | "sidebar.results"
   | "sidebar.mentalHealthTest"
   | "sidebar.selectTeacher"
+  | "sidebar.students"
+  | "sidebar.analytics"
+  | "common.create"
   | "topbar.profile"
   | "topbar.logout"
   | "topbar.switchLanguage"

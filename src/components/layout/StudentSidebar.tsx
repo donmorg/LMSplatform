@@ -8,7 +8,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 
 export default function StudentSidebar() {
   const pathname = usePathname();
-  const { t, dir } = useLanguage();
+  const { t, dir, language } = useLanguage();
 
   const links = [
     { name: t("sidebar.dashboard"), href: "/student/dashboard", icon: Home },

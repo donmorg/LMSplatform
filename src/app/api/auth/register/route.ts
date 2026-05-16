@@ -18,6 +18,9 @@ export async function POST(req: Request) {
       where: {
         OR: [{ username }, { email }],
       },
+      select: {
+        id: true,
+      },
     });
 
     if (existingUser) {

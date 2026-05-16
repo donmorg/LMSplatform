@@ -16,7 +16,6 @@ export default function StudentProfilePage() {
   const [password, setPassword] = useState("");
   const [teachers, setTeachers] = useState<any[]>([]);
   const [selectedTeacherId, setSelectedTeacherId] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
@@ -36,21 +35,11 @@ export default function StudentProfilePage() {
         setUsername(data.username || "");
         setFullName(data.fullName || "");
         setSelectedTeacherId(data.assignedTeacherId || "");
-        setAvatarPreview(data.avatarUrl || null);
         setLoading(false);
       });
   }, []);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatarPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
 
   const handleSave = async () => {
     setSaving(true);
@@ -64,13 +53,12 @@ export default function StudentProfilePage() {
           fullName,
           password: password ? password : undefined,
           assignedTeacherId: selectedTeacherId,
-          avatarUrl: avatarPreview,
         }),
       });
 
       if (res.ok) {
         setMessage({ text: "Profile updated successfully!", type: "success" });
-        await update({ assignedTeacherId: selectedTeacherId, avatarUrl: avatarPreview, name: fullName });
+        await update({ assignedTeacherId: selectedTeacherId, name: fullName });
         setPassword(""); // clear password field
       } else {
         const error = await res.json();
@@ -100,28 +88,7 @@ export default function StudentProfilePage() {
       )}
 
       <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
-        {/* Avatar Section */}
-        <div className="flex items-center space-x-6 rtl:space-x-reverse">
-          <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden border-4 border-white shadow-lg flex items-center justify-center">
-              {avatarPreview ? (
-                <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <User className="w-10 h-10 text-gray-400" />
-              )}
-            </div>
-            <label className="absolute bottom-0 right-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-indigo-700 transition-colors">
-              <Upload className="w-4 h-4" />
-              <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
-            </label>
-          </div>
-          <div>
-            <h3 className="text-lg font-bold text-gray-900">Profile Picture</h3>
-            <p className="text-sm text-gray-500">Upload a new avatar (JPEG, PNG).</p>
-          </div>
-        </div>
-
-        <div className="space-y-6 pt-6 border-t border-gray-50">
+        <div className="space-y-6">
           {/* Full Name */}
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2">Full Name</label>

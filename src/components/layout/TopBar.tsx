@@ -90,11 +90,7 @@ export default function TopBar() {
             className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-100 overflow-hidden"
             style={{ backgroundColor: (session?.user as any)?.avatarColor || "#7c3aed" }}
           >
-            {(session?.user as any)?.avatarUrl ? (
-              <img src={(session?.user as any).avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-            ) : (
-              session?.user?.name?.charAt(0) || <User className="w-5 h-5" />
-            )}
+            {session?.user?.name?.charAt(0) || <User className="w-5 h-5" />}
           </div>
         </Link>
 

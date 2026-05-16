@@ -42,7 +42,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             email: user.email,
             role: user.role,
             assignedTeacherId: user.assignedTeacherId,
-            avatarUrl: user.avatarUrl,
             avatarColor: user.avatarColor,
           };
         } catch (error: any) {

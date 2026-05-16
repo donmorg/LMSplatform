@@ -11,7 +11,7 @@ export async function GET(req: Request) {
     const userId = (session.user as any).id;
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { username: true, fullName: true, assignedTeacherId: true, avatarUrl: true }
+      select: { username: true, fullName: true, assignedTeacherId: true }
     });
 
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -27,13 +27,12 @@ export async function PUT(req: Request) {
     if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     
     const userId = (session.user as any).id;
-    const { username, fullName, password, assignedTeacherId, avatarUrl } = await req.json();
+    const { username, fullName, password, assignedTeacherId } = await req.json();
 
     const dataToUpdate: any = {};
     if (username) dataToUpdate.username = username;
     if (fullName) dataToUpdate.fullName = fullName;
     if (assignedTeacherId) dataToUpdate.assignedTeacherId = assignedTeacherId;
-    if (avatarUrl !== undefined) dataToUpdate.avatarUrl = avatarUrl;
     
     if (password) {
       const salt = await bcrypt.genSalt(10);

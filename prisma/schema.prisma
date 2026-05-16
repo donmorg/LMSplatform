@@ -20,12 +20,7 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  // Teacher-Student Assignment (if STUDENT)
-  assignedTeacherId String?
-  assignedTeacher   User?   @relation("StudentTeacher", fields: [assignedTeacherId], references: [id])
-  
-  // Teacher-Student Assignment (if TEACHER)
-  assignedStudents  User[]  @relation("StudentTeacher")
+
 
   // Teacher relations
   lessons      Lesson[]

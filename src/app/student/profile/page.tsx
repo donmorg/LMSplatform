@@ -14,27 +14,17 @@ export default function StudentProfilePage() {
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
-  const [teachers, setTeachers] = useState<any[]>([]);
-  const [selectedTeacherId, setSelectedTeacherId] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
   useEffect(() => {
-    // Fetch teachers (Psychologists)
-    fetch("/api/student/teacher")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setTeachers(data);
-      });
-
     // Fetch user profile data
     fetch("/api/student/profile")
       .then((res) => res.json())
       .then((data) => {
         setUsername(data.username || "");
         setFullName(data.fullName || "");
-        setSelectedTeacherId(data.assignedTeacherId || "");
         setLoading(false);
       });
   }, []);
@@ -52,13 +42,12 @@ export default function StudentProfilePage() {
           username,
           fullName,
           password: password ? password : undefined,
-          assignedTeacherId: selectedTeacherId,
         }),
       });
 
       if (res.ok) {
         setMessage({ text: "Profile updated successfully!", type: "success" });
-        await update({ assignedTeacherId: selectedTeacherId, name: fullName });
+        await update({ name: fullName });
         setPassword(""); // clear password field
       } else {
         const error = await res.json();
@@ -123,22 +112,6 @@ export default function StudentProfilePage() {
             />
           </div>
 
-          {/* Teacher Selection */}
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Assigned Psychologist (اخصاىي نفسي)</label>
-            <select
-              value={selectedTeacherId}
-              onChange={(e) => setSelectedTeacherId(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all appearance-none"
-            >
-              <option value="">-- Select a Psychologist --</option>
-              {teachers.map((teacher) => (
-                <option key={teacher.id} value={teacher.id}>
-                  {teacher.fullName}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
 
         <div className="pt-6 border-t border-gray-50">

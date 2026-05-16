@@ -31,10 +31,7 @@ export default auth(async (req) => {
         return NextResponse.redirect(new URL("/teacher/dashboard", nextUrl));
       }
       
-      // Teacher selection check
-      if (!user.assignedTeacherId && pathname !== "/student/select-teacher") {
-        return NextResponse.redirect(new URL("/student/select-teacher", nextUrl));
-      }
+
     }
 
     if (pathname.startsWith("/teacher") && role !== "TEACHER") {

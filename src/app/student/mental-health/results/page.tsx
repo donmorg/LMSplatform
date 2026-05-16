@@ -5,8 +5,9 @@ import Link from "next/link";
 import { HeartPulse, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { mentalHealthQuestions } from "@/lib/mentalHealthQuestions";
+import { Suspense } from "react";
 
-export default function MentalHealthResultsPage() {
+function ResultsContent() {
   const searchParams = useSearchParams();
   const scoreParam = searchParams.get("score");
   const score = scoreParam ? parseInt(scoreParam, 10) : 0;
@@ -45,5 +46,13 @@ export default function MentalHealthResultsPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function MentalHealthResultsPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center mt-12">Loading...</div>}>
+      <ResultsContent />
+    </Suspense>
   );
 }

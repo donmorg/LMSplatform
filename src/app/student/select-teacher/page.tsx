@@ -47,8 +47,8 @@ export default function SelectTeacherPage() {
       });
 
       if (res.ok) {
-        // Update session to reflect the new assignedTeacherId
-        await update({ assignedTeacherId: selectedTeacherId });
+        // Update session (mocking teacher assignment)
+        await update({ name: session?.user?.name });
         // Force a hard refresh so the middleware sees the updated session cookie
         window.location.href = "/student/dashboard";
       }

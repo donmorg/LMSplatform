@@ -7,11 +7,7 @@ export default async function StudentsHealthPage() {
   const teacherId = (session?.user as any)?.id;
 
   const results = await prisma.mentalHealthResult.findMany({
-    where: {
-      student: {
-        assignedTeacherId: teacherId
-      }
-    },
+
     include: {
       student: true
     },

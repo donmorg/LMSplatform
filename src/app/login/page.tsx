@@ -11,10 +11,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const registered = searchParams.get("registered");
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,35 +28,31 @@ function LoginForm() {
       });
 
       if (res?.error) {
-        if (res.error === "CredentialsSignin") {
-          setError("Invalid username or password");
-          return;
-        }
-        setError(res.error || "Login failed");
+        setError("اسم المستخدم أو كلمة المرور غير صحيحة");
         return;
       }
 
       router.push("/dashboard");
     } catch (err: any) {
-      setError(err.message || "An unexpected error occurred. Please try again.");
+      setError("حدث خطأ غير متوقع. يرجى المحاولة مجدداً.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-xl shadow-gray-200">
+    <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-xl shadow-gray-200" dir="rtl">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl mb-4">
           <LogIn className="w-8 h-8" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Welcome Back!</h1>
-        <p className="text-gray-500">Log in to continue your learning journey.</p>
+        <h1 className="text-3xl font-bold text-gray-900">مرحباً بعودتك!</h1>
+        <p className="text-gray-500 mt-2">سجّل دخولك لمتابعة رحلتك الإرشادية.</p>
       </div>
 
       {registered && (
         <div className="mb-6 p-4 bg-green-50 text-green-700 font-medium rounded-xl border border-green-100 text-center">
-          Registration successful! Please log in.
+          تم التسجيل بنجاح! يمكنك تسجيل الدخول الآن.
         </div>
       )}
 
@@ -71,26 +64,28 @@ function LoginForm() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="relative">
-          <UserCircle className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <UserCircle className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Username"
+            placeholder="اسم المستخدم"
             required
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-medium"
+            className="w-full pr-12 pl-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-medium text-right"
+            dir="rtl"
           />
         </div>
 
         <div className="relative">
-          <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="كلمة المرور"
             required
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-medium"
+            className="w-full pr-12 pl-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-medium text-right"
+            dir="rtl"
           />
         </div>
 
@@ -101,15 +96,15 @@ function LoginForm() {
             loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200"
           }`}
         >
-          {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-          {loading ? "Logging in..." : "Log In"}
+          {loading ? <Loader2 className="w-5 h-5 animate-spin ml-2" /> : null}
+          {loading ? "جاري الدخول..." : "تسجيل الدخول"}
         </button>
       </form>
 
       <p className="mt-10 text-center text-gray-500">
-        Don't have an account yet?{" "}
+        ليس لديك حساب؟{" "}
         <Link href="/register" className="text-indigo-600 font-bold hover:underline">
-          Sign Up
+          إنشاء حساب جديد
         </Link>
       </p>
     </div>
@@ -118,11 +113,11 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6" dir="rtl">
       <Suspense fallback={
         <div className="w-full max-w-md bg-white p-20 rounded-3xl shadow-xl flex flex-col items-center justify-center">
           <Loader2 className="w-10 h-10 text-indigo-600 animate-spin mb-4" />
-          <p className="text-gray-500 font-bold">Loading login...</p>
+          <p className="text-gray-500 font-bold">جاري التحميل...</p>
         </div>
       }>
         <LoginForm />

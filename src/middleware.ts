@@ -31,7 +31,13 @@ export default auth(async (req) => {
         return NextResponse.redirect(new URL("/teacher/dashboard", nextUrl));
       }
       
-
+      const teacherId = user?.teacherId;
+      if (!teacherId && pathname !== "/student/select-teacher") {
+        return NextResponse.redirect(new URL("/student/select-teacher", nextUrl));
+      }
+      if (teacherId && pathname === "/student/select-teacher") {
+        return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+      }
     }
 
     if (pathname.startsWith("/teacher") && role !== "TEACHER") {

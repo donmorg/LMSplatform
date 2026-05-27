@@ -39,8 +39,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Teacher ID is required" }, { status: 400 });
     }
 
-    // Feature disabled because assignedTeacherId column does not exist in database
-    console.log(`Mocking teacher assignment for user ${(session.user as any).id} to teacher ${teacherId}`);
+    // Save the actual relationship in the database
+    await prisma.user.update({
+      where: { id: (session.user as any).id },
+      data: { teacherId },
+    });
+
+    console.log(`Successfully assigned student ${(session.user as any).id} to teacher ${teacherId}`);
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -23,7 +23,7 @@ export default function StudentSidebar() {
       <div className="p-8">
         <Link href="/" className="flex items-center space-x-3 space-x-reverse">
           <div className="relative w-10 h-10 flex items-center justify-center">
-            <img src="/logo.png" alt="أثر" className="w-full h-full object-contain" />
+            <img src="/logo.jpg" alt="أثر" className="w-full h-full object-contain" />
           </div>
           <span className="text-xl font-black tracking-tight text-gray-900">أثر</span>
         </Link>

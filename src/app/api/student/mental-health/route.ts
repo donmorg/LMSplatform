@@ -29,6 +29,11 @@ export async function POST(req: Request) {
         answers: JSON.stringify(answers),
       },
     });
+    // Mark test as completed for the student
+    await prisma.user.update({
+      where: { id: session.user.id as string },
+      data: { testCompleted: true },
+    });
 
     return NextResponse.json({ success: true, score: result.score });
   } catch (error) {

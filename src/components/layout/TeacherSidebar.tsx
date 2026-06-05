@@ -24,7 +24,7 @@ export default function TeacherSidebar() {
       <div className="p-8 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-3 space-x-reverse">
           <div className="relative w-10 h-10 flex items-center justify-center bg-white rounded-xl p-1">
-            <img src="/logo.png" alt="أثر" className="w-full h-full object-contain" />
+            <img src="/logo.jpg" alt="أثر" className="w-full h-full object-contain" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white">أثر</span>
         </Link>

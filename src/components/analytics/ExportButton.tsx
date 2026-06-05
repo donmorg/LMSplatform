@@ -42,18 +42,18 @@ export default function ExportButton() {
     >
       {isExporting ? (
         <>
-          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-          Preparing...
+          <Loader2 className="w-4 h-4 ml-2 animate-spin" />
+          جاري التحضير...
         </>
       ) : isDone ? (
         <>
-          <CheckCircle className="w-4 h-4 mr-2" />
-          Downloaded!
+          <CheckCircle className="w-4 h-4 ml-2" />
+          تم التنزيل!
         </>
       ) : (
         <>
-          <Download className="w-4 h-4 mr-2" />
-          Export Report
+          <Download className="w-4 h-4 ml-2" />
+          تصدير التقرير
         </>
       )}
     </button>

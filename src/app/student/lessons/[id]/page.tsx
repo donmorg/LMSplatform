@@ -63,7 +63,7 @@ export default async function LessonViewerPage({ params }: { params: Promise<{ i
             <div className="flex flex-wrap items-center gap-6 mb-8 text-sm font-bold text-gray-400">
               <div className="flex items-center">
                 <User className="w-4 h-4 mr-2 text-indigo-600" />
-                Teacher: {lesson.teacher.fullName}
+                Teacher: {lesson.teacher?.fullName || "Unknown Teacher"}
               </div>
               <div className="flex items-center">
                 <Clock className="w-4 h-4 mr-2 text-amber-500" />

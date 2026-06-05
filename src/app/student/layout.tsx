@@ -14,10 +14,13 @@ export default async function StudentLayout({
   const studentId = (session?.user as any)?.id;
 
   // Fetch student record to check if a teacher is already assigned
-  const student = await prisma.user.findUnique({
-    where: { id: studentId },
-    select: { teacherId: true },
-  });
+  let student = null;
+  if (studentId) {
+    student = await prisma.user.findUnique({
+      where: { id: studentId },
+      select: { teacherId: true },
+    });
+  }
 
   // Load all teachers for the selection modal
   const teachers = await prisma.user.findMany({

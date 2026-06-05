@@ -8,9 +8,12 @@ export default async function StudentDashboard() {
   const studentId = (session?.user as any)?.id;
 
   // Fetch some stats for the dashboard
-  const progressCount = await prisma.lessonProgress.count({
-    where: { studentId, status: "COMPLETED" },
-  });
+  let progressCount = 0;
+  if (studentId) {
+    progressCount = await prisma.lessonProgress.count({
+      where: { studentId, status: "COMPLETED" },
+    });
+  }
 
   const recentLessons = await prisma.lesson.findMany({
     take: 3,

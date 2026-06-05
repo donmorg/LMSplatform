@@ -38,3 +38,32 @@ model User {
   mentalHealthResults MentalHealthResult[]
   testCompleted Boolean @default(false)
 }
+
+model Lesson {
+  id String @id @default(cuid())
+}
+
+model Quiz {
+  id String @id @default(cuid())
+}
+
+model Test {
+  id String @id @default(cuid())
+}
+
+model Submission {
+  id String @id @default(cuid())
+}
+
+model TestSubmission {
+  id String @id @default(cuid())
+}
+
+model LessonProgress {
+  id String @id @default(cuid())
+}
+
+model MentalHealthResult {
+  id String @id @default(cuid())
+}
+

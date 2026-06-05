@@ -41,29 +41,43 @@ model User {
 
 model Lesson {
   id String @id @default(cuid())
+  teacher   User?   @relation(fields: [teacherId], references: [id])
+  teacherId String?
 }
 
 model Quiz {
   id String @id @default(cuid())
+  teacher   User?   @relation(fields: [teacherId], references: [id])
+  teacherId String?
 }
 
 model Test {
   id String @id @default(cuid())
+  teacher   User?   @relation(fields: [teacherId], references: [id])
+  teacherId String?
 }
 
 model Submission {
   id String @id @default(cuid())
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
 }
 
 model TestSubmission {
   id String @id @default(cuid())
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
 }
 
 model LessonProgress {
   id String @id @default(cuid())
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
 }
 
 model MentalHealthResult {
   id String @id @default(cuid())
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
 }
 

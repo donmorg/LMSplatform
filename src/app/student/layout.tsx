@@ -32,7 +32,7 @@ export default async function StudentLayout({
       <StudentSidebar />
       <div className="flex-1 ms-72">
         <TopBar />
-        {needsSelection && <TeacherSelectionModal teachers={teachers} />}
+        {needsSelection && <TeacherSelectionModal teachers={teachers} studentId={studentId} />}
         <main className="p-8">
           {children}
         </main>

@@ -60,9 +60,9 @@ export default function MentalHealthTestPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                { label: t("mentalHealth.options.applies"), score: 3, id: "applies" },
-                { label: t("mentalHealth.options.sometimes"), score: 2, id: "sometimes" },
-                { label: t("mentalHealth.options.doesNotApply"), score: 1, id: "no" }
+                { label: t("mentalHealth.options.applies"), score: 2, id: "applies" },
+                { label: t("mentalHealth.options.sometimes"), score: 1, id: "sometimes" },
+                { label: t("mentalHealth.options.doesNotApply"), score: 0, id: "no" }
               ].map((opt) => {
                 const isSelected = answers[index] === opt.score;
                 return (

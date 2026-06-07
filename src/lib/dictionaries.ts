@@ -41,7 +41,7 @@ export const translations = {
       performTest: "بدء المقياس",
       submitTest: "إرسال الإجابات",
       options: {
-        applies: "ينطبق علي",
+        applies: "ينطبق",
         sometimes: "أحياناً",
         doesNotApply: "لا ينطبق",
       },
